@@ -65,62 +65,81 @@ public class connect4methods{
 		return strname;
 	}
 	
+	public static String record(Console con){
+		BufferedImage imgscene = con.loadImage("namescreen.png");
+		String strresponse = "";
+		String strrecord = "";
+		while (!strresponse.equals("yes")&&!strresponse.equals("no")){
+		con.drawImage(imgscene,0,0);
+		con.drawString("Would you like to record the game?", 850,250);
+		con.drawString("input 'yes' or 'no'", 850, 350);
+		strresponse = con.readLine();
+		con.clear();
+		}
+		con.repaint();
+		return strresponse;
+	}
+	
 	public static void namescreen(Console con){
 		BufferedImage imgscene = con.loadImage("namescreen.png");
 		con.drawImage(imgscene,0,0);
 		con.repaint();
 	}
-	public static void pregame (Console con){
+	public static void pregame (String strname, String strname2, Console con){
 		Color clrblue = new Color(0, 0, 255);
 		Color clrwhite = new Color(240,240,240);
+		Color clrblack = new Color(0,0,0);
+		int intcirclex=265;
+		int intcount;
+		int intcount2;
+		int intcircley=105;
 		con.fillRect(0,0,1280,720);
 		con.setDrawColor(clrblue);
 		con.fillRect(0,100,1280,719);
 		con.setDrawColor(clrwhite);
-		con.fillOval(265,105,95,95);
-		con.fillOval(265,208,95,95);
-		con.fillOval(265,311,95,95);
-		con.fillOval(265,414,95,95);
-		con.fillOval(265,517,95,95);
-		con.fillOval(265,620,95,95);
-		con.fillOval(375,105,95,95);
-		con.fillOval(375,208,95,95);
-		con.fillOval(375,311,95,95);
-		con.fillOval(375,414,95,95);
-		con.fillOval(375,517,95,95);
-		con.fillOval(375,620,95,95);
-		con.fillOval(485,105,95,95);
-		con.fillOval(485,208,95,95);
-		con.fillOval(485,311,95,95);
-		con.fillOval(485,414,95,95);
-		con.fillOval(485,517,95,95);
-		con.fillOval(485,620,95,95);
-		con.fillOval(595,105,95,95);
-		con.fillOval(595,208,95,95);
-		con.fillOval(595,311,95,95);
-		con.fillOval(595,414,95,95);
-		con.fillOval(595,517,95,95);
-		con.fillOval(595,620,95,95);
-		con.fillOval(705,105,95,95);
-		con.fillOval(705,208,95,95);
-		con.fillOval(705,311,95,95);
-		con.fillOval(705,414,95,95);
-		con.fillOval(705,517,95,95);
-		con.fillOval(705,620,95,95);
-		con.fillOval(815,105,95,95);
-		con.fillOval(815,208,95,95);
-		con.fillOval(815,311,95,95);
-		con.fillOval(815,414,95,95);
-		con.fillOval(815,517,95,95);
-		con.fillOval(815,620,95,95);
-		con.fillOval(925,105,95,95);
-		con.fillOval(925,208,95,95);
-		con.fillOval(925,311,95,95);
-		con.fillOval(925,414,95,95);
-		con.fillOval(925,517,95,95);
-		con.fillOval(925,620,95,95);
-		
+		for(intcount = 7; intcount>0; intcount--){
+			for (intcount2 = 6; intcount2>0;intcount2--){
+				con.fillOval(intcirclex,intcircley,95,95);
+				intcircley = intcircley + 103;
+			}
+			intcircley = 105;
+			intcirclex = intcirclex+110;
+			
+		} 
+		con.setDrawColor(clrblack);
+		con.drawString(strname,0,0);
+		con.drawString(strname2, 1150,0);
+		con.drawString("1", 305,70);
+		con.drawString("2", 415,70);
+		con.drawString("3", 525,70);
+		con.drawString("4", 635,70);
+		con.drawString("5", 745,70);
+		con.drawString("6", 855,70);
+		con.drawString("7", 965,70);
+		con.drawString("Input the Number for Your Token", 450,20);
 		con.repaint();
 	}
-
+	public static int maingame(Console con){
+		BufferedImage imgp1 = con.loadImage("player1.png");
+		BufferedImage imgp2 = con.loadImage("player2.png");
+		BufferedImage imgnon = con.loadImage("nonturn.png");
+		int intplayerinput;
+		int[][] intboard = new int[6][5];
+		int intwin = 0;
+		int intturn = 1;
+		int intswitch = 1;
+		while (intwin == 0){
+			intplayerinput = con.readInt() - 1;
+			if (intturn == 1) {
+				intboard[intplayerinput][1] = 1;
+			}
+			if (intturn == 2) {
+				intboard[intplayerinput][1] = 2;
+			}
+			intturn = intturn + intswitch;
+			intswitch = intswitch*-1;
+		}
+			con.repaint();
+		return 0;
+	}
 }
