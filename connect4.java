@@ -11,8 +11,6 @@ public class connect4{
 		int intrecord;
 		String strname1= "r";
 		String strname2= "e";
-		connect4methods.pregame(strname1, strname2, con);
-		int x =con.readInt();
 		while (1 == 1) {
 			if (intcount == 0) {
 			intmousex = con.currentMouseX();
