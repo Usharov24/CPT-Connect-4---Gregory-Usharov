@@ -134,6 +134,9 @@ public class connect4methods{
 		int intcheck = 0;
 		int intcount;
 		int intcount2;
+		int intcount3;
+		int intcountcheck = 0;
+		int intcountwin = 0;
 		int intarrayvalue = 1;
 		for (intcount = 6; intcount >= 0; intcount--){
 			for (intcount2 = 5; intcount2 >=0; intcount2--){
@@ -145,21 +148,37 @@ public class connect4methods{
 		while (intwin == 0){
 			
 			intarrayvalue = con.readInt();
+			
+			while (intarrayvalue >7 || intarrayvalue < 1){
+			con.println("Please input a proper value");
+			intarrayvalue = con.readInt();
+			}
 			intplayerinput = intarrayvalue - 1;
 			for (intcount = 6; intcount >= 0; intcount--){
-					if (intboard[intplayerinput][intcheck]> 0){
-						intcheck = intcheck + 1;
+				if (intcheck == 6){
+					con.println("slot is full, input another");
+					intarrayvalue = con.readInt();
+					intplayerinput = intarrayvalue-1;
+					intcount = 6;
+					intcheck = 0;
+					while (intarrayvalue >7 || intarrayvalue < 1){
+						con.println("Please input a proper value");
+						intarrayvalue = con.readInt();
+						intplayerinput = intarrayvalue-1;
 					}
+				}
+				if (intboard[intplayerinput][intcheck]> 0){
+					intcheck = intcheck + 1;
+						
+				}
 			}
-			con.println(intcheck);
+			
 			if (intturn == 1) {
 				intboard[intplayerinput][intcheck] = 1;
 			}
 			if (intturn == 2) {
 				intboard[intplayerinput][intcheck] = 2;
 			}
-			intturn = intturn + intswitch;
-			intswitch = intswitch*-1;
 		
 			if (intboard[intplayerinput][intcheck] == 1){
 				con.setDrawColor(clryellow);
@@ -169,20 +188,54 @@ public class connect4methods{
 				con.setDrawColor(clrred);
 				con.fillOval(265 +intplayerinput*110, 620 - (103*intcheck),95,95);
 			}
-			/*
-			winning code
-			if(intcheck < 1) {
-				if(intboard[intplayerinput][intcheck] 
 			
-			
-			
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 6; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 2; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 5-intcountcheck; intcount >= 2-intcountcheck; intcount--){
+							if (intboard[intcount2][intcount] == intcount3){
+								intcountwin = intcountwin + 1;
+							}
+							if (intcountwin == 4 && intcount3 == intturn){
+								con.println("player " + intcount3 +"  wins wow");
+							}
+						}
+						
+					}
+				}
 			}
 			
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 5; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 3; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 6-intcountcheck; intcount >= 3-intcountcheck; intcount--){
+							if (intboard[intcount][intcount2] == intcount3){
+								intcountwin = intcountwin + 1;
+							}
+							if (intcountwin == 4 && intcount3 == intturn){
+								con.println("player " + intcount3 +"  wins wow");
+							}
+						}
+						
+					}
+				}
+			}
 			
+			intturn = intturn + intswitch;
+			intswitch = intswitch*-1;
 			
-			
-			*/
-			con.println(intcheck);
 			intcheck = 0;
 			con.repaint();
 		}
