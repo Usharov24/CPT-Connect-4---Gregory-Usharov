@@ -135,6 +135,7 @@ public class connect4methods{
 		int intcount;
 		int intcount2;
 		int intcount3;
+		int intcount4;
 		int intcountcheck = 0;
 		int intcountwin = 0;
 		int intarrayvalue = 1;
@@ -232,6 +233,56 @@ public class connect4methods{
 					}
 				}
 			}
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 3; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 2; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 0; intcount <= 2; intcount++){
+							for (intcount4 = 0; intcount4 <4; intcount4++){
+								if (intboard[intcount2+intcount4][intcount+intcount4] == intcount3){
+									intcountwin = intcountwin + 1;
+								}
+								if (intcountwin == 4 && intcount3 == intturn){
+									con.println("player " + intcount3 +"  wins wow");
+								}
+							}
+						intcountwin =0;
+						}
+						
+					}
+				}
+			}
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 3; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 2; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 5; intcount >= 3; intcount--){
+							for (intcount4 = 0; intcount4 <4; intcount4++){
+								if (intboard[intcount2+intcount4][intcount-intcount4] == intcount3){
+									intcountwin = intcountwin + 1;
+								}
+								if (intcountwin == 4 && intcount3 == intturn){
+									con.println("player " + intcount3 +"  wins wow");
+								}
+							}
+						intcountwin =0;
+						}
+						
+					}
+				}
+			}
+			
+			
 			
 			intturn = intturn + intswitch;
 			intswitch = intswitch*-1;
