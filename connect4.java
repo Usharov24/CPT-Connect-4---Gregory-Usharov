@@ -8,12 +8,16 @@ public class connect4{
 		int intmousey;
 		int intmouseclick;
 		int intcount = 0;
-		int intrecord;
+		int intwincount;
+		int intwincount1 = 0;
+		int intwincount2 = 0;
+		int intrecord = 1;
+		String strread = "1";
 		String strname1= "r";
 		String strname2= "e";
-		connect4methods.pregame(strname1, strname2, con);
-			connect4methods.maingame(con);
+		String strresponse = "yes";
 		while (1 == 1) {
+			con.clear();
 			if (intcount == 0) {
 			intmousex = con.currentMouseX();
 			intmousey = con.currentMouseY();
@@ -26,15 +30,38 @@ public class connect4{
 				con.clear();
 				connect4methods.namescreen(con);
 				strname2 = connect4methods.name2(con);
-				if (connect4methods.record(con) == "yes"){
-					intrecord = 1;
+				intrecord = connect4methods.record(con);
+				if (strresponse.equals("yes")){
+				connect4methods.pregame(strname1, strname2, con);
+				intwincount = connect4methods.maingame(con, intrecord, strname1, strname2);
+				if (intwincount == 2){
+					intwincount2 = intwincount2 + 1;
 				}
-				else {
-					intrecord = 0;
+				if (intwincount == 1){
+					intwincount1 = intwincount1 + 1;
+				}
+				con.println("Would you like to play again?");
+				strresponse = con.readLine();
 				}
 				
-				connect4methods.pregame(strname1, strname2, con);
-				connect4methods.maingame(con);
+			}
+			
+			if (intcount == 2){
+				TextInputFile txtrecord = new TextInputFile("recording.txt");
+				if (txtrecord.eof() == true) {
+					con.println("nothing recorded, going back to mainscreen");
+					con.sleep(1000);
+					intcount = 0;
+				}
+				else {
+					connect4methods.pregame(strname1, strname2, con);
+					connect4methods.watching(con);
+					con.println("recording finished");
+					con.println("recording finished, returning to main menu");
+					con.sleep(500);
+					intcount = 0;
+				}
+				
 			}
 			if (intcount == 4){
 				con.closeConsole();

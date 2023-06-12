@@ -65,9 +65,10 @@ public class connect4methods{
 		return strname;
 	}
 	
-	public static String record(Console con){
+	public static int record(Console con){
 		BufferedImage imgscene = con.loadImage("namescreen.png");
 		String strresponse = "";
+		int intanswer = 0;
 		String strrecord = "";
 		while (!strresponse.equals("yes")&&!strresponse.equals("no")){
 		con.drawImage(imgscene,0,0);
@@ -77,7 +78,10 @@ public class connect4methods{
 		con.clear();
 		}
 		con.repaint();
-		return strresponse;
+		if (strresponse.equals("yes")){
+			intanswer = 1;
+		}
+		return intanswer;
 	}
 	
 	public static void namescreen(Console con){
@@ -120,10 +124,11 @@ public class connect4methods{
 		con.drawString("Input the Number for Your Token", 450,20);
 		con.repaint();
 	}
-	public static int maingame(Console con){
+	public static int maingame(Console con, int intrecord, String strname1, String strname2){
 		BufferedImage imgp1 = con.loadImage("player1.png");
 		BufferedImage imgp2 = con.loadImage("player2.png");
 		BufferedImage imgnon = con.loadImage("nonturn.png");
+		TextOutputFile txtrecord = new TextOutputFile("recording.txt");
 		int intplayerinput=0;
 		Color clrred = new Color(255, 0, 0);
 		Color clryellow = new Color(255, 255, 0);
@@ -135,38 +140,54 @@ public class connect4methods{
 		int intcount;
 		int intcount2;
 		int intcount3;
+		int intgameloop = 0;
 		int intcount4;
 		int intcountcheck = 0;
 		int intcountwin = 0;
 		int intarrayvalue = 1;
+		
+		int[] intreturn = new int[2];
+		if (intrecord == 1){
+			txtrecord.println(strname1);
+			txtrecord.println(strname2);
+		}	
 		for (intcount = 6; intcount >= 0; intcount--){
 			for (intcount2 = 5; intcount2 >=0; intcount2--){
 				intboard[intcount][intcount2] = 0;
 			}
 			
 		}
+		intreturn[0] = 0;
+		intreturn[1] = 0;
 		 
 		while (intwin == 0){
+			con.println("input where you would like to place the peice");
+			intarrayvalue = con.getKey();
+		
 			
-			intarrayvalue = con.readInt();
-			
-			while (intarrayvalue >7 || intarrayvalue < 1){
-			con.println("Please input a proper value");
-			intarrayvalue = con.readInt();
+			while (intarrayvalue < 49 || intarrayvalue > 55){
+				con.clear();
+				con.println("Please input a proper value");
+				intarrayvalue = con.getKey();
 			}
-			intplayerinput = intarrayvalue - 1;
+			intplayerinput = intarrayvalue - 49;
+			
 			for (intcount = 6; intcount >= 0; intcount--){
 				if (intcheck == 6){
+					con.clear();
 					con.println("slot is full, input another");
-					intarrayvalue = con.readInt();
-					intplayerinput = intarrayvalue-1;
+					intarrayvalue = con.getKey();
+					intplayerinput = intarrayvalue-49;
 					intcount = 6;
 					intcheck = 0;
-					while (intarrayvalue >7 || intarrayvalue < 1){
-						con.println("Please input a proper value");
-						intarrayvalue = con.readInt();
-						intplayerinput = intarrayvalue-1;
-					}
+						while (intarrayvalue < 49 || intarrayvalue > 55){
+							con.clear();
+							con.println("Please input a proper value");
+
+							con.println(intarrayvalue);
+							intarrayvalue = con.getKey();
+							intplayerinput = intarrayvalue-49;
+						}
 				}
 				if (intboard[intplayerinput][intcheck]> 0){
 					intcheck = intcheck + 1;
@@ -204,7 +225,7 @@ public class connect4methods{
 								intcountwin = intcountwin + 1;
 							}
 							if (intcountwin == 4 && intcount3 == intturn){
-								con.println("player " + intcount3 +"  wins wow");
+								intwin = intcount3;
 							}
 						}
 						
@@ -226,7 +247,7 @@ public class connect4methods{
 								intcountwin = intcountwin + 1;
 							}
 							if (intcountwin == 4 && intcount3 == intturn){
-								con.println("player " + intcount3 +"  wins wow");
+								intwin = intcount3;
 							}
 						}
 						
@@ -248,7 +269,7 @@ public class connect4methods{
 									intcountwin = intcountwin + 1;
 								}
 								if (intcountwin == 4 && intcount3 == intturn){
-									con.println("player " + intcount3 +"  wins wow");
+									intwin = intcount3;
 								}
 							}
 						intcountwin =0;
@@ -272,7 +293,176 @@ public class connect4methods{
 									intcountwin = intcountwin + 1;
 								}
 								if (intcountwin == 4 && intcount3 == intturn){
-									con.println("player " + intcount3 +"  wins wow");
+									intwin = intcount3;
+								}
+							}
+						intcountwin =0;
+						}
+						
+					}
+				}
+			}
+			
+			if (intrecord == 1){
+				
+				txtrecord.println(intplayerinput + 1);
+			}
+			
+			intturn = intturn + intswitch;
+			intswitch = intswitch*-1;
+			intgameloop = intgameloop + 1;
+			intcheck = 0;
+			con.repaint();
+			con.clear();
+	}
+	con.println("Player " + intwin + " won");
+	txtrecord.close();
+		return intwin;
+	}
+	
+	public static int watching(Console con){
+		BufferedImage imgp1 = con.loadImage("player1.png");
+		BufferedImage imgp2 = con.loadImage("player2.png");
+		BufferedImage imgnon = con.loadImage("nonturn.png");
+		TextInputFile txtrecord = new TextInputFile("recording.txt");
+		int intplayerinput=0;
+		Color clrred = new Color(255, 0, 0);
+		Color clryellow = new Color(255, 255, 0);
+		int[][] intboard = new int[7][6];
+		int intwin = 0;
+		int intturn = 1;
+		int intswitch = 1;
+		int intcheck = 0;
+		int intcount;
+		int intcount2;
+		int intcount3;
+		int intgameloop = 0;
+		int intcount4;
+		int intcountcheck = 0;
+		int intcountwin = 0;
+		String struseless;
+		int intarrayvalue = 1;
+		int[] intreturn = new int[2];
+		struseless = txtrecord.readLine();
+		struseless = txtrecord.readLine();
+		for (intcount = 6; intcount >= 0; intcount--){
+			for (intcount2 = 5; intcount2 >=0; intcount2--){
+				intboard[intcount][intcount2] = 0;
+			}
+			
+		}
+		
+		 
+		while (intwin == 0){
+			
+			intarrayvalue = txtrecord.readInt();
+			
+			intplayerinput = intarrayvalue - 1;
+			
+			while (intboard[intplayerinput][intcheck]> 0){
+					intcheck = intcheck + 1;
+						
+				}
+			
+			if (intturn == 1) {
+				intboard[intplayerinput][intcheck] = 1;
+			}
+			if (intturn == 2) {
+				intboard[intplayerinput][intcheck] = 2;
+			}
+		
+			if (intboard[intplayerinput][intcheck] == 1){
+				con.setDrawColor(clryellow);
+				con.fillOval(265 +(intplayerinput*110), 620 - (103*intcheck), 95,95);
+			}	
+			if (intboard[intplayerinput][intcheck] == 2){
+				con.setDrawColor(clrred);
+				con.fillOval(265 +intplayerinput*110, 620 - (103*intcheck),95,95);
+			}
+			
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 6; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 2; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 5-intcountcheck; intcount >= 2-intcountcheck; intcount--){
+							if (intboard[intcount2][intcount] == intcount3){
+								intcountwin = intcountwin + 1;
+							}
+							if (intcountwin == 4 && intcount3 == intturn){
+								intwin = intcount3;
+							}
+						}
+						
+					}
+				}
+			}
+			
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 5; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 3; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 6-intcountcheck; intcount >= 3-intcountcheck; intcount--){
+							if (intboard[intcount][intcount2] == intcount3){
+								intcountwin = intcountwin + 1;
+							}
+							if (intcountwin == 4 && intcount3 == intturn){
+								intwin = intcount3;
+							}
+						}
+						
+					}
+				}
+			}
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 3; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 2; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 0; intcount <= 2; intcount++){
+							for (intcount4 = 0; intcount4 <4; intcount4++){
+								if (intboard[intcount2+intcount4][intcount+intcount4] == intcount3){
+									intcountwin = intcountwin + 1;
+								}
+								if (intcountwin == 4 && intcount3 == intturn){
+									intwin = intcount3;
+								}
+							}
+						intcountwin =0;
+						}
+						
+					}
+				}
+			}
+			for (intcount3 = 2; intcount3 > 0; intcount3--){
+				
+				//determines which player has the 4 in a row
+				for (intcount2 = 3; intcount2 >= 0; intcount2--){
+					//moves from column 1 to 7 trying to find a vertical 4 in a row
+					for (intcountcheck = 0; intcountcheck <= 2; intcountcheck++){
+						//moves the 4 block radius down and scans
+						intcountwin = 0;
+						// intcountwin is the variable used to show whether a player won or not
+						for (intcount = 5; intcount >= 3; intcount--){
+							for (intcount4 = 0; intcount4 <4; intcount4++){
+								if (intboard[intcount2+intcount4][intcount-intcount4] == intcount3){
+									intcountwin = intcountwin + 1;
+								}
+								if (intcountwin == 4 && intcount3 == intturn){
+									intwin = intcount3;
 								}
 							}
 						intcountwin =0;
@@ -286,10 +476,14 @@ public class connect4methods{
 			
 			intturn = intturn + intswitch;
 			intswitch = intswitch*-1;
-			
+			intgameloop = intgameloop + 1;
 			intcheck = 0;
 			con.repaint();
-		}
+			con.clear();
+			con.sleep(500);
+	}
+	con.println("Player " + intwin + " won");
+	txtrecord.close();
 		return 0;
 	}
 }
