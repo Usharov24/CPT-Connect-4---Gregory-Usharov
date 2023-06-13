@@ -33,6 +33,8 @@ public class connect4methods{
 		con.repaint();
 	}
 	public static String name1(Console con){
+		Color clrblack = new Color(0,0,0);
+		con.setDrawColor(clrblack);
 		BufferedImage imgscene = con.loadImage("namescreen.png");
 		String strresponse = "";
 		String strname = "";
@@ -485,5 +487,55 @@ public class connect4methods{
 	con.println("Player " + intwin + " won");
 	txtrecord.close();
 		return 0;
+	}
+	public static void highscoremenu(Console con){
+		TextInputFile txtscore = new TextInputFile("highscores.txt");
+		int intcount;
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		con.println("");
+		for (intcount = 0; intcount <= 4; intcount++){
+			con.println("                                                    " + txtscore.readLine());
+			con.println("                                                    " + txtscore.readLine());
+		}
+		BufferedImage imgscene = con.loadImage("highscores.png");
+		
+		con.drawImage(imgscene,0,0);
+		con.repaint();
+		
+		
+	}
+	public static void highscoreinput(Console con, int intscore, int intscore2, String strname, String strname2){
+		
+		String[] strnamearray = new String[5];
+		int intcount = 0;
+		int intsub;
+		String strsub;
+		int[] intlist = new int[5];
+		TextInputFile txtscore = new TextInputFile("highscores.txt");
+		while (txtscore.eof() == false){
+			strnamearray[intcount] = txtscore.readLine();
+			intlist[intcount] = txtscore.readInt();
+			intcount = intcount + 1;
+		}
+		txtscore.close();
+		
+		TextOutputFile txtscore2 = new TextOutputFile("highscores.txt");
+		while (intcount > 0) {
+			if (intlist[intcount] < intscore){
+				
+			}
+		}
+		
+		
 	}
 }

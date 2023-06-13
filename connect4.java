@@ -31,17 +31,20 @@ public class connect4{
 				connect4methods.namescreen(con);
 				strname2 = connect4methods.name2(con);
 				intrecord = connect4methods.record(con);
-				if (strresponse.equals("yes")){
-				connect4methods.pregame(strname1, strname2, con);
-				intwincount = connect4methods.maingame(con, intrecord, strname1, strname2);
-				if (intwincount == 2){
-					intwincount2 = intwincount2 + 1;
-				}
-				if (intwincount == 1){
-					intwincount1 = intwincount1 + 1;
-				}
-				con.println("Would you like to play again?");
-				strresponse = con.readLine();
+				while (strresponse.equals("yes")){
+					connect4methods.pregame(strname1, strname2, con);
+					intwincount = connect4methods.maingame(con, intrecord, strname1, strname2);
+					if (intwincount == 2){
+						intwincount2 = intwincount2 + 1;
+					}
+					if (intwincount == 1){
+						intwincount1 = intwincount1 + 1;
+					}
+					con.println("Would you like to play again?");
+					strresponse = con.readLine();
+					if (!strresponse.equals("yes")){
+						intcount=0;
+					}
 				}
 				
 			}
@@ -62,6 +65,10 @@ public class connect4{
 					intcount = 0;
 				}
 				
+			}
+			
+			if (intcount == 3){
+				connect4methods.highscoremenu(con);
 			}
 			if (intcount == 4){
 				con.closeConsole();
