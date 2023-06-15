@@ -1,4 +1,7 @@
 import arc.*;
+//Gregory Usharov
+//Connect 4 Game 
+//V 1.5
 
 public class connect4{
 	public static void main(String[] args){
@@ -41,10 +44,10 @@ public class connect4{
 				while (strresponse.equals("yes")){
 					connect4methods.pregame(strname1, strname2, con);
 					if (intrecord == 1){
-						intwincount = connect4methods.maingame(con, intrecord, strname1, strname2);
+						intwincount = connect4methods.maingame(con, strname1, strname2, intwincount1, intwincount2);
 					}
 					if (intrecord == 0){
-						intwincount = connect4methods.maingamenorecord(con, strname1, strname2);
+						intwincount = connect4methods.maingamenorecord(con, strname1, strname2, intwincount1, intwincount2);
 					}
 					//if the user decided not to record, use the maingame without any recording functions
 					if (intwincount == 2){
@@ -53,15 +56,14 @@ public class connect4{
 					if (intwincount == 1){
 						intwincount1 = intwincount1 + 1;
 					}
-					//if player 1 won, add 1 to their score counter, if player 2 won, add 1 to their score counter
-					con.println("Would you like to play again?");
-					//
+					//if player 1 won, add 1 to their score counter, if player 2 won, add 1 to their score count
 					strresponse = con.readLine();
 					if (!strresponse.equals("yes")){
 						//if the user fails to input yes, their sent to the main menu
 						intcount=0;
 					}
 				}
+				connect4methods.highscoresort(con);
 				connect4methods.highscoreinput(con, intwincount1, intwincount2, strname1, strname2);
 				//inputs score into highscore method
 				strresponse = "yes";
@@ -76,10 +78,9 @@ public class connect4{
 					//if nothing is detected in the recording doc, do the above
 				}
 				else {
+					
 					connect4methods.pregame(strname1, strname2, con);
 					connect4methods.watching(con);
-					con.println("recording finished");
-					con.println("recording finished, returning to main menu");
 					//prints the recording and then returns to main menu
 					con.sleep(3000);
 					intcount = 0;
@@ -88,8 +89,9 @@ public class connect4{
 			}
 			
 			if (intcount == 3){
+				connect4methods.highscoresort(con);
 				connect4methods.highscoremenu(con);
-				//highscore method prints highscoe to screen and then goes back to main menu
+				//highscore method prints highscore to screen and then goes back to main menu
 				con.sleep(5000);
 				intcount = 0;
 			}
